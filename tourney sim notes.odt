@@ -1,0 +1,3 @@
+Assume 10 players with elo skill distribution of [955,965,975,985,995,1005,1015,1025,1035,1045].
+
+One possible system is to separate the players into 3 brackets, one lower bracket with 4 people, a middle one with 3 people, and a higher one with 3 people. Lower bracket has score distribution of [1,2,3,4], middle one has a distribution of 2*(2.5/2.0*[1,2,3]) = [2.5,5.0,7.5], higher one has a distribution of 4*(2.5/2.0*[1,2,3]) = [5.0,10.0,15.0]. There will be a seeding round (seeding for seeding round will be random). After seeding, there will be n rounds, and people move between brackets based on their total score in between rounds. Ties in placing will be determined by RNG for intermediate rounds.
