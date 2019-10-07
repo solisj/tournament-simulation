@@ -49,8 +49,6 @@ def adjust_one_bracket(bracket):
 
   rankings = get_rankings(elos)
 
-  #TODO adjust scores based on these rankings
-
   for i in range(len(bracket)): #adjust each player's elo and score
     #find the players you won and lost to    
 
@@ -63,7 +61,7 @@ def adjust_one_bracket(bracket):
         elif rankings[i] < rankings[j]:
           lost_against.append(bracket[j])
 
-    #adjust elos
+    #adjust elo
     
     for other_player_index in won_against:
       elos = [bracket[i].get_elo(),bracket[other_player_index].get_elo()]
@@ -72,8 +70,8 @@ def adjust_one_bracket(bracket):
       elos = [bracket[i].get_elo(),bracket[other_player_index].get_elo()]
       bracket[i].add_elo(k*(0-get_win_prob(elos))/(len(bracket)-1))
 
-    #TODO adjust score
-    
+    #adjust score
+    bracket[i] += score_distribution()[rankings[i]] #???
 
 def sort_players(players):
   """Given a list of players, sort them by score."""
