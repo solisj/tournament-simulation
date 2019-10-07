@@ -19,6 +19,10 @@ class TestPlayer(unittest.TestCase):
     difficulty = sim.Difficulty.EASY
     scores = sim.score_distribution(num_players, difficulty)
     self.assertEqual(scores,[4,3,2,1])
+    num_players = 3
+    difficulty = sim.Difficulty.MEDIUM
+    scores = sim.score_distribution(num_players, difficulty)
+    self.assertEqual(scores, [7.5,5.0,2.5])
   def test_sortplayers(self):
     player1 = sim.Player(1000)
     player1.add_score(1)
