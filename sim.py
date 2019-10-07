@@ -49,14 +49,26 @@ def score_distribution(num_players, difficulty = Difficulty.MEDIUM):
   """Return a list of score distributions given the number of players and the difficulty."""
   #initialize scores list 
   scores = []
-  for i in range(num_players,0):
+  for i in range(num_players,0,-1):
     scores.append(i)
+
   #adjust scores so its average is the same as other distributions of the same difficulty
   expected_total = avg_score * num_players
   actual_total = sum(scores)
-  for i in range(num_players,0):
-    scores[i] *= ( expected_total / actual_total )
-  
+  for i in range(num_players):
+    scores[i] *= (expected_total/actual_total)
+
+  #adjust scores based on difficulty
+  if difficulty == Difficulty.EASY:
+    difficulty_adjustment = 1
+  if difficulty == Difficulty.MEDIUM:
+    difficulty_adjustment = 2
+  if difficulty == Difficulty.HARD:
+    difficulty_adjustment = 4
+
+  for i in range(num_players):
+    scores[i] *= difficulty_adjustment
+
   return scores
 
 def adjust_one_bracket(bracket):

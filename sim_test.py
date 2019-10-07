@@ -15,7 +15,10 @@ class TestPlayer(unittest.TestCase):
     elos = [1000,1000,1000]
     self.assertEqual(sim.get_win_prob(elos),[1/3,1/3,1/3])
   def test_scoredistribution(self):
-    #TODO add tests
+    num_players = 4
+    difficulty = sim.Difficulty.EASY
+    scores = sim.score_distribution(num_players, difficulty)
+    self.assertEqual(scores,[4,3,2,1])
   def test_sortplayers(self):
     player1 = sim.Player(1000)
     player1.add_score(1)
