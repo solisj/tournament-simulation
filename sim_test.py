@@ -12,6 +12,8 @@ class TestPlayer(unittest.TestCase):
     self.assertEqual(sim.get_win_prob(elos),[0.5,0.5])
     elos = [800, 1200]
     self.assertEqual(sim.get_win_prob(elos),[1/11,10/11])
+    elos = [1000,1000,1000]
+    self.assertEqual(sim.get_win_prob(elos),[1/3,1/3,1/3])
   def test_sortplayers(self):
     player1 = sim.Player(1000)
     player1.add_score(1)
