@@ -86,10 +86,10 @@ def adjust_one_bracket(bracket):
     
     for other_player_index in won_against:
       elos = [bracket[i].get_elo(),bracket[other_player_index].get_elo()]
-      bracket[i].add_elo(k*(1-get_win_prob(elos))/(len(bracket)-1))
+      bracket[i].add_elo(k*(1-get_win_prob(elos)[0])/(len(bracket)-1))
     for other_player_index in lost_against:
       elos = [bracket[i].get_elo(),bracket[other_player_index].get_elo()]
-      bracket[i].add_elo(k*(0-get_win_prob(elos))/(len(bracket)-1))
+      bracket[i].add_elo(k*(0-get_win_prob(elos[0]))/(len(bracket)-1))
 
     #adjust score
     bracket[i] += score_distribution(len(bracket))[rankings[i]-1] #adjust score based on ranking (and score distribution)
