@@ -16,11 +16,18 @@ class Player:
   def add_elo(self, new_elo):
      self.elo += new_elo
 
-def get_win_prob(elo1, elo2):
-  """Given two elos, return the expected score of the player with elo1."""
-  q_1 = 10 ** (elo1 / 400)
-  q_2 = 10 ** (elo2 / 400)
-  return q_1 / (q_1 + q_2)
+def get_win_prob(elos):
+  """Given a list of elos, return a list of the expected scores."""
+  #based on https://stats.stackexchange.com/q/66398
+  q = []
+  for elo in elos:
+    q.append(10 ** (elo / 400))
+  
+  expected_scores = []
+  for i in range(len(elos)):
+    expected_scores.append(q[i]/sum(q))
+
+  return expected_scores 
 
 def adjust_one_bracket(bracket):
   """
