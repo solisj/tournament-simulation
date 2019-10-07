@@ -1,3 +1,7 @@
+import random
+
+k = 0
+
 class Player:
   """A class that will represent a player's skill as well as their current score."""
   def __init__(self, elo):
@@ -27,14 +31,49 @@ def get_win_prob(elos):
   for i in range(len(elos)):
     expected_scores.append(q[i]/sum(q))
 
-  return expected_scores 
+  return expected_scores
+
+def get_rankings(elos):
+  """Given a list of elos, return a list of the rankings if one round were played."""
+  #TODO implement this
+  
 
 def adjust_one_bracket(bracket):
   """
   Adjust the elos and scores of the players in one bracket.
   Input: bracket, a list of the players in the bracket.
   """
-  #TODO implement this
+  elos = []
+  for player in bracket:
+    elos.append(player.get_elo())
+
+  rankings = get_rankings(elos)
+
+  #TODO adjust scores based on these rankings
+
+  for i in range(len(bracket)): #adjust each player's elo and score
+    #find the players you won and lost to    
+
+    won_against = []
+    lost_against = []
+    for j in range(len(bracket)):
+      if i != j:  
+        if rankings[i] > rankings[j]:
+          won_against.append(bracket[j])
+        elif rankings[i] < rankings[j]:
+          lost_against.append(bracket[j])
+
+    #adjust elos
+    
+    for other_player_index in won_against:
+      elos = [bracket[i].get_elo(),bracket[other_player_index].get_elo()]
+      bracket[i].add_elo(k*(1-get_win_prob(elos))/(len(bracket)-1))
+    for other_player_index in lost_against:
+      elos = [bracket[i].get_elo(),bracket[other_player_index].get_elo()]
+      bracket[i].add_elo(k*(0-get_win_prob(elos))/(len(bracket)-1))
+
+    #TODO adjust score
+    
 
 def sort_players(players):
   """Given a list of players, sort them by score."""
