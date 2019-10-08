@@ -42,8 +42,13 @@ def get_win_prob(elos):
   return expected_scores
 
 def get_rankings(elos):
-  """Given a list of elos, return a list of the rankings if one round were played."""
-  #TODO implement this
+  """Given a list of elos, return a list of the rankings if one round were played (i.e. "run one simulation")."""
+  #get expected scores (or probabilities)
+  expected_scores = get_win_prob(elos)
+
+  #TODO finish implementation
+  for i in range(len(elos)):
+    pass
 
 def score_distribution(num_players, difficulty = Difficulty.MEDIUM):
   """Return a list of score distributions given the number of players and the difficulty."""
