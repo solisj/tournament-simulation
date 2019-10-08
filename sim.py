@@ -3,6 +3,7 @@ from enum import Enum
 
 k = 0
 avg_score = 2.5
+debug = True
 
 class Difficulty(Enum):
   """An enum to represent the different difficulties of the brackets."""
@@ -46,9 +47,22 @@ def get_rankings(elos):
   #get expected scores (or probabilities)
   expected_scores = get_win_prob(elos)
 
-  #TODO finish implementation
-  for i in range(len(elos)):
-    pass
+  rankings = [] #will have rankings in order (1st, 2nd, ...)
+  for i in range(len(elos)): #determine 1st, then 2nd, etc. in order
+    total_weight = 1
+    for player_index in rankings: 
+      total_weight -= expected_scores[player_index]
+    for j in range(len(elos)):
+      #if this is the last possible player, then just add it 
+      #if j == (len(elos) - 1):
+      #  rankings.append(j)
+      #  break
+      if not j in rankings: #if this player has not won already
+        if random.random() < ( expected_scores[j] / total_weight ): 
+          rankings.append(j)
+          break
+        total_weight -= expected_scores[j]
+  return rankings
 
 def score_distribution(num_players, difficulty = Difficulty.MEDIUM):
   """Return a list of score distributions given the number of players and the difficulty."""
@@ -142,3 +156,13 @@ def do_round(players):
   for bracket in brackets:
     adjust_one_bracket(bracket)
 
+if debug:
+  elos = [1000,1000,1000]
+  wins = [0,0,0] #find how many times each player won in the simulation
+  for i in range(1000):
+    rankings = get_rankings(elos)
+    for j in range(len(wins)):
+      wins[j] += 1 if rankings[j] == 0 else 0
+  print(wins)
+  #elos = [800,1200]
+  #print(rankings)
