@@ -3,7 +3,7 @@ from enum import Enum
 
 k = 0
 avg_score = 2.5
-debug = True
+debug = False
 
 class Difficulty(Enum):
    """An enum to represent the different difficulties of the brackets."""
@@ -144,7 +144,7 @@ def sort_players(players):
 def do_round(players):
    """
    Perform one round, adjusting the player's elo and score accordingly.
-   Input: players, a list representing players.
+   Input: players, a list representing players. Mutated by this function.
    """
    sort_players(players)
    
@@ -157,8 +157,8 @@ def do_round(players):
       brackets.append(players[total_used:total_used+bracket_sizes[i]])
       total_used += bracket_sizes[i]
 
-   for bracket in brackets:
-      print(bracket)
+   # for bracket in brackets:
+   #    print(bracket)
 
    #adjust brackets one by one
 
@@ -171,13 +171,13 @@ def do_round(players):
       else: #i == 2
          difficulty = Difficulty.HARD
 
-      print("adjusting bracket " + str(i) + " with difficulty " + str(difficulty))
+      # print("adjusting bracket " + str(i) + " with difficulty " + str(difficulty))
 
-      print("before: " + str(brackets[i]))
+      # print("before: " + str(brackets[i]))
 
       adjust_one_bracket(brackets[i], difficulty)
 
-      print("after: " + str(brackets[i]))
+      # print("after: " + str(brackets[i]))
 
 if debug:
    elos = [1000,1000,1000]
@@ -214,11 +214,15 @@ if debug:
    # print(bracket1)
    # print(bracket2)
 
-   print(players)
+   #print(players)
+
+   print(player1)
 
    do_round(players)
 
-   print(players)
+   print(player1)
+
+   #print(players)
 
    #elos = [800,1200]
    #print(rankings)
