@@ -29,6 +29,9 @@ class Player:
   def add_elo(self, new_elo):
      self.elo += new_elo
 
+  def __repr__(self):
+    return "<score: " + str(self.score) + ", elo: " + str(self.elo) + ">"
+
 def get_win_prob(elos):
   """Given a list of elos, return a list of the expected scores."""
   #based on https://stats.stackexchange.com/q/66398
@@ -90,7 +93,7 @@ def score_distribution(num_players, difficulty = Difficulty.MEDIUM):
 
   return scores
 
-def adjust_one_bracket(bracket):
+def adjust_one_bracket(bracket, difficulty = Difficulty.MEDIUM):
   """
   Adjust the elos and scores of the players in one bracket.
   Input: bracket, a list of the players in the bracket.
@@ -115,15 +118,18 @@ def adjust_one_bracket(bracket):
 
     #adjust elo
     
-    for other_player_index in won_against:
-      elos = [bracket[i].get_elo(),bracket[other_player_index].get_elo()]
-      bracket[i].add_elo(k*(1-get_win_prob(elos)[0])/(len(bracket)-1))
-    for other_player_index in lost_against:
-      elos = [bracket[i].get_elo(),bracket[other_player_index].get_elo()]
-      bracket[i].add_elo(k*(0-get_win_prob(elos[0]))/(len(bracket)-1))
+    for other_player in won_against:
+      elos = [bracket[i].get_elo(),other_player.get_elo()]
+      elo_adjustment = k * ( 1 - get_win_prob(elos)[0] ) / ( len(bracket) - 1 )
+      bracket[i].add_elo(elo_adjustment)
+    for other_player in lost_against:
+      elos = [bracket[i].get_elo(),other_player.get_elo()]
+      elo_adjustment = k * ( 0 - get_win_prob(elos)[0] ) / ( len(bracket) - 1 )
+      bracket[i].add_elo(elo_adjustment)
 
-    #adjust score
-    bracket[i] += score_distribution(len(bracket))[rankings[i]-1] #adjust score based on ranking (and score distribution)
+    #adjust score based on ranking (and score distribution)
+    score_adjustment = score_distribution(len(bracket))[rankings[i]]
+    bracket[i].add_score(score_adjustment) 
 
 def sort_players(players):
   """Given a list of players, sort them by score."""
@@ -159,10 +165,32 @@ def do_round(players):
 if debug:
   elos = [1000,1000,1000]
   wins = [0,0,0] #find how many times each player won in the simulation
-  for i in range(1000):
+  for i in range(0):
     rankings = get_rankings(elos)
     for j in range(len(wins)):
       wins[j] += 1 if rankings[j] == 0 else 0
-  print(wins)
+  #print(wins)
+  
+  player1 = Player(1000)
+  player2 = Player(1000)
+  player3 = Player(1000)
+  player4 = Player(1000)
+  player5 = Player(1000)
+  players = [player1, player2, player3, player4, player5]
+  bracket1 = players[0:3]
+  bracket2 = players[3:5]
+
+  print(bracket1[0])
+
+  print(bracket1)
+  print(bracket2)
+
+  print("one round happening")
+  adjust_one_bracket(bracket1)
+  adjust_one_bracket(bracket2)
+
+  print(bracket1)
+  print(bracket2)
+
   #elos = [800,1200]
   #print(rankings)
