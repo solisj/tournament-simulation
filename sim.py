@@ -29,6 +29,9 @@ class Player:
    def add_elo(self, new_elo):
       self.elo += new_elo
 
+   def reset_score(self):
+      self.score = 0
+
    def __repr__(self):
       return "<score: " + str(self.score) + ", elo: " + str(self.elo) + ">"
 
@@ -141,16 +144,18 @@ def sort_players(players):
                players[j] = players[j+1]
                players[j+1] = temp
 
-def do_round(players):
+def do_round(players, bracket_sizes, difficulties):
    """
    Perform one round, adjusting the player's elo and score accordingly.
    Input: players, a list representing players. Mutated by this function.
+          bracket_sizes, list of the bracket sizes
+          difficulties, list of difficulties
    """
    sort_players(players)
    
    #use players to make a list of the brackets, ordered from lowest bracket to highest
 
-   bracket_sizes = [4, 3, 3] #the sizes of the brackets
+   #bracket_sizes = [4, 3, 3] #the sizes of the brackets
    total_used = 0
    brackets = [] #a list of lists representing players in different brackets
    for i in range(len(bracket_sizes)):
@@ -164,12 +169,13 @@ def do_round(players):
 
    for i in range(len(brackets)):
       #set difficulty
-      if i == 0:
-         difficulty = Difficulty.EASY
-      elif i == 1:
-         difficulty = Difficulty.MEDIUM
-      else: #i == 2
-         difficulty = Difficulty.HARD
+      # if i == 0:
+      #    difficulty = Difficulty.EASY
+      # elif i == 1:
+      #    difficulty = Difficulty.MEDIUM
+      # else: #i == 2
+      #    difficulty = Difficulty.HARD
+      difficulty = difficulties[i]
 
       # print("adjusting bracket " + str(i) + " with difficulty " + str(difficulty))
 
